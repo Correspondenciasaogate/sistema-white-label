@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Controle de Mercadorias Pro</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+    <h1>Controle de Encomendas</h1>
+</header>
+
+<main>
+    <div class="coluna-dados">
+        
+        <div id="blocoRecebimento" class="container">
+            <h2 id="tituloForm">📦 Novo Recebimento</h2>
+            <form id="formRecebimento">
+                <input type="hidden" id="editId">
+                <div class="campo-grupo">
+                    <input type="text" id="notaFiscal" required placeholder="Nota Fiscal">
+                    <select id="torre" required>
+                        <option value="">Torre</option>
+                        <option value="Gate">Gate</option>
+                        <option value="Way">Way</option>
+                    </select>
+                    <input type="text" id="sala" required placeholder="Sala/Apto">
+                </div>
+                <div class="campo-grupo">
+                    <input type="text" id="destinatario" required placeholder="Nome do Destinatário">
+                    <input type="tel" id="telefone" placeholder="Telefone (Opcional)">
+                </div>
+                <p style="font-size: 0.8em; color: #666; margin-top: 5px;">💡 A foto deve ser enviada diretamente pelo WhatsApp.</p>
+                <div style="display: flex; gap: 10px;">
+                    <button type="submit" id="btnSalvar" class="btn-principal">Salvar Mercadoria</button>
+                    <button type="button" id="btnCancelarEdit" class="btn-secundario" style="display:none; background:#666;" onclick="cancelarEdicao()">Cancelar</button>
+                </div>
+            </form>
+        </div>
+
+        <div id="secaoFiltros" class="container">
+            <h3>🔍 Filtros e Busca</h3>
+            <div class="filtros-grid">
+                <input type="date" id="filtroData" oninput="aplicarFiltros()">
+                <input type="text" id="filtroSala" placeholder="Sala" oninput="aplicarFiltros()">
+                <input type="text" id="filtroNome" placeholder="Nome" oninput="aplicarFiltros()">
+                <input type="text" id="filtroNF" placeholder="NF" oninput="aplicarFiltros()">
+                <select id="filtroStatus" onchange="aplicarFiltros()">
+                    <option value="">Status: Todos</option>
+                    <option value="Aguardando retirada">Aguardando</option>
+                    <option value="Retirado">Retirado</option>
+                </select>
+            </div>
+            <div style="display: flex; gap: 10px; margin-top: 10px;">
+                <button onclick="visualizarTudo()" class="btn-secundario" style="flex: 1; background: #64748b; color: white;">🧹 Limpar Filtros</button>
+                <button onclick="exportarCSV()" class="btn-secundario" style="flex: 1; background: #0ea5e9; color: white;">📊 Exportar Excel</button>
+            </div>
+        </div>
+
+        <div id="dashboard">
+            <div class="card"><h3>Total Hoje</h3><span id="dashTotal">0</span></div>
+            <div class="card aguardando"><h3>Aguardando</h3><span id="dashAguardando">0</span></div>
+            <div class="card retirados"><h3>Retirados</h3><span id="dashRetirados">0</span></div>
+        </div>
+
+        <div class="container">
+            <h3>📋 Notas Cadastradas</h3>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Data</th><th>NF</th><th>Sala</th><th>Torre</th><th>Destinatário</th><th>Status</th><th>Ação</th>
+                        </tr>
+                    </thead>
+                    <tbody id="listaCorpo"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="lateral-acoes">
+        <div id="resultadoBusca" class="container">
+            <h3>📌 Detalhes da Seleção</h3>
+            <div id="resultadoConteudo">
+                <p class="placeholder-text">Clique em uma nota ou use os filtros.</p>
+            </div>
+        </div>
+
+        <div id="blocoConfirmarRetirada" class="container" style="display:none;">
+            <h3 style="color:green; margin-top:0">✅ Confirmar Entrega</h3>
+            <input type="text" id="nomeRec" placeholder="Nome de quem retira" style="width:100%; margin-bottom:10px;">
+            <label>Assinatura Digital:</label>
+            <div style="border: 1px dashed #ccc; background: #fff; margin: 10px 0;">
+                <canvas id="canvasAssinatura" width="340" height="150" style="width:100%;"></canvas>
+            </div>
+            <div style="display: flex; gap: 5px;">
+                <button onclick="limparAssinatura()" class="btn-secundario" style="flex: 1;">Limpar</button>
+                <button onclick="finalizarEntrega()" class="btn-principal" style="flex: 2; background: green;">Finalizar</button>
+            </div>
+        </div>
+    </div>
+</main>
+<script src="script.js"></script>
+</body>
+
+</html>
