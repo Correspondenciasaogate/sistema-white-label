@@ -1,12 +1,15 @@
-/* ================= VARIÁVEIS E BASE ================= */
+/* ================= VARIÁVEIS GLOBAIS (White Label) ================= */
 :root {
-    --primary: #2563eb;
-    --success: #16a34a;
-    --warning: #f59e0b;
-    --bg: #f8fafc;
+    /* O JavaScript substituirá estas cores usando o objeto CONFIG */
+    --cor-primaria: #2563eb; 
+    --cor-secundaria: #64748b;
+    --bg: #f1f5f9;
     --text: #1e293b;
+    --success: #22c55e;
+    --warning: #f59e0b;
 }
 
+/* ================= RESET E BASE ================= */
 * { box-sizing: border-box; }
 
 body { 
@@ -15,8 +18,20 @@ body {
     color: var(--text);
     margin: 0; 
     padding: 15px; 
+    line-height: 1.5;
 }
 
+header {
+    background-color: var(--cor-primaria);
+    color: white;
+    padding: 1.5rem;
+    text-align: center;
+    margin-bottom: 20px;
+    border-radius: 0 0 12px 12px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+header h1 { margin: 0; font-size: 1.6rem; letter-spacing: -0.5px; }
 
 /* ================= LAYOUT PRINCIPAL ================= */
 main {
@@ -48,11 +63,11 @@ main {
     padding: 15px; 
     border-radius: 8px; 
     text-align: center; 
-    border-bottom: 4px solid var(--primary); 
+    border-bottom: 4px solid var(--cor-primaria); 
     box-shadow: 0 1px 2px rgba(0,0,0,0.05);
 }
-.card h3 { margin: 0; font-size: 0.9rem; color: #64748b; text-transform: uppercase; }
-.card span { font-size: 1.5rem; font-weight: bold; display: block; margin-top: 5px; }
+.card h3 { margin: 0; font-size: 0.85rem; color: #64748b; text-transform: uppercase; }
+.card span { font-size: 1.6rem; font-weight: bold; display: block; margin-top: 5px; color: var(--text); }
 
 .card.aguardando { border-color: var(--warning); }
 .card.retirados { border-color: var(--success); }
@@ -61,7 +76,7 @@ main {
 .campo-grupo, .filtros-grid { 
     display: flex; 
     gap: 10px; 
-    margin-bottom: 10px; 
+    margin-bottom: 12px; 
 }
 
 input, select { 
@@ -69,16 +84,20 @@ input, select {
     padding: 12px; 
     border: 1px solid #e2e8f0; 
     border-radius: 6px; 
-    font-size: 16px; /* Evita zoom automático no iPhone */
+    font-size: 16px; 
+    background-color: #fff;
+    color: var(--text);
+    transition: border-color 0.2s;
 }
 
 input:focus, select:focus {
-    outline: 2px solid #2563eb33;
-    border-color: var(--primary);
+    outline: none;
+    border-color: var(--cor-primaria);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
 }
 
 .btn-principal { 
-    background: var(--primary); 
+    background: var(--cor-primaria); 
     color: white; 
     border: none; 
     padding: 14px; 
@@ -86,28 +105,32 @@ input:focus, select:focus {
     cursor: pointer; 
     font-weight: bold; 
     width: 100%; 
-    transition: filter 0.2s;
+    font-size: 1rem;
+    transition: filter 0.2s, transform 0.1s;
 }
 .btn-principal:hover { filter: brightness(0.9); }
+.btn-principal:active { transform: scale(0.98); }
 
 .btn-secundario { 
-    background: #64748b; 
+    background: var(--cor-secundaria); 
     color: white; 
     border: none; 
-    padding: 10px; 
+    padding: 10px 15px; 
     border-radius: 6px; 
     cursor: pointer; 
+    font-size: 0.9rem;
 }
 
 /* ================= TABELA DE DADOS ================= */
 .table-responsive {
-    overflow-x: auto; /* Permite scroll lateral no celular */
+    overflow-x: auto;
     border-radius: 8px;
+    border: 1px solid #e2e8f0;
 }
 
-table { width: 100%; border-collapse: collapse; min-width: 600px; }
-th { text-align: left; padding: 12px; background: #f1f5f9; font-size: 0.85rem; color: #475569; }
-td { padding: 12px; border-bottom: 1px solid #f1f5f9; cursor: pointer; font-size: 0.9rem; }
+table { width: 100%; border-collapse: collapse; min-width: 650px; }
+th { text-align: left; padding: 14px; background: #f8fafc; font-size: 0.85rem; color: #475569; border-bottom: 2px solid #e2e8f0; }
+td { padding: 14px; border-bottom: 1px solid #f1f5f9; cursor: pointer; font-size: 0.95rem; }
 tr:hover { background: #f8fafc; }
 
 /* ================= PAINEL LATERAL (DETALHES) ================= */
@@ -118,70 +141,80 @@ tr:hover { background: #f8fafc; }
 }
 
 #resultadoBusca { 
-    max-height: 80vh; 
+    max-height: 75vh; 
     overflow-y: auto; 
+    padding-right: 5px;
 }
 
 .card-detalhe-lista {
-    background: #f8fafc;
+    background: #fff;
     border: 1px solid #e2e8f0;
     padding: 15px;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
     border-radius: 8px;
-    transition: 0.2s;
+    transition: transform 0.2s, box-shadow 0.2s;
+    border-left: 6px solid var(--cor-primaria);
 }
-.card-detalhe-lista h4 { margin-top: 0; color: var(--primary); }
-.card-detalhe-lista p { margin: 5px 0; font-size: 0.95rem; }
+.card-detalhe-lista:hover { transform: translateY(-2px); box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+.card-detalhe-lista h4 { margin: 0 0 8px 0; color: var(--cor-primaria); font-size: 1.1rem; }
+.card-detalhe-lista p { margin: 4px 0; font-size: 0.9rem; color: #475569; }
 
 /* ================= ASSINATURA E MÍDIA ================= */
 canvas#canvasAssinatura {
     display: block;
     width: 100%; 
-    background: white;
+    background: #fafafa;
     touch-action: none; 
-    border-radius: 4px;
+    border: 2px dashed #cbd5e1;
+    border-radius: 8px;
+    margin: 10px 0;
 }
 
-.assinatura-salva, img {
+.bloco-assinatura {
+    background: #f1f5f9;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 15px;
+}
+
+img.assinatura-preview {
     max-width: 100%;
     height: auto;
     border-radius: 6px;
-    margin-top: 8px;
+    margin-top: 10px;
+    border: 1px solid #e2e8f0;
+    background: white;
 }
 
 /* ================= RESPONSIVIDADE (CELULAR) ================= */
 @media (max-width: 1024px) {
-    main {
-        grid-template-columns: 1fr; /* Em tablets, vira coluna única */
-    }
+    main { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 768px) {
     body { padding: 10px; }
     
+    header { border-radius: 0; margin: -10px -10px 20px -10px; }
+
     main {
         display: flex;
         flex-direction: column; 
     }
     
     .lateral-acoes {
-        order: -1; /* Painel de Detalhes aparece PRIMEIRO no topo */
+        order: -1; 
         position: static;
-        margin-bottom: 10px;
+        margin-bottom: 20px;
     }
 
-    .campo-grupo {
-        flex-direction: column;
-        gap: 10px;
-    }
+    .campo-grupo { flex-direction: column; }
 
-    #dashboard {
-        grid-template-columns: 1fr; /* Cards de contagem um sob o outro */
-    }
+    #dashboard { grid-template-columns: 1fr; }
     
     .filtros-grid {
         display: grid;
         grid-template-columns: 1fr 1fr;
     }
-
+    
+    .btn-principal { padding: 16px; font-size: 1.1rem; }
 }
